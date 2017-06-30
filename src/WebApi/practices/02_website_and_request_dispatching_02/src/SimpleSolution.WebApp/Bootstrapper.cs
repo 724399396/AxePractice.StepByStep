@@ -1,4 +1,6 @@
-﻿using System.Web.Http;
+﻿using System.Net.Http;
+using System.Web.Http;
+using System.Web.Http.Routing;
 
 namespace SimpleSolution.WebApp
 {
@@ -15,6 +17,10 @@ namespace SimpleSolution.WebApp
                 new
                 {
                     controller = "Users"
+                },
+                new
+                {
+                    httpMethod = new HttpMethodConstraint(HttpMethod.Get)
                 });
 
             configuration.Routes.MapHttpRoute("users-dependents",
@@ -23,6 +29,10 @@ namespace SimpleSolution.WebApp
                 {
                     controller = "Users",
                     Action = "Dependents"
+                },
+                new
+                {
+                    httpMethod = new HttpMethodConstraint(HttpMethod.Get)
                 });
 
             configuration.Routes.MapHttpRoute("users-id",
@@ -33,7 +43,8 @@ namespace SimpleSolution.WebApp
                 },
                 new
                 {
-                    id = @"\d+"
+                    id = @"\d+",
+                    httpMethod = new HttpMethodConstraint(HttpMethod.Get, HttpMethod.Put)
                 });
 
             configuration.Routes.MapHttpRoute(
@@ -41,10 +52,14 @@ namespace SimpleSolution.WebApp
                 new
                 {
                     controller = "Users"
+                },
+                new
+                {
+                    httpMethod = new HttpMethodConstraint(HttpMethod.Get)
                 });
 
-           
-          
+
+
         }
     }
 }
