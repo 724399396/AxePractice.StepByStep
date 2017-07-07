@@ -69,7 +69,7 @@ namespace LocalApi.Test.ControllerActionInvokerFacts
         {
             HttpResponseMessage response = ControllerActionInvoker.InvokeAction(
                 new ActionDescriptor(new ControllerWithErrorAction(), "Get"));
-            
+
             Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
         }
     }
