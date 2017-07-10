@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using static System.String;
+using System.Reflection;
 
 namespace LocalApi
 {
@@ -12,18 +11,16 @@ namespace LocalApi
         {
             var controller = actionDescriptor.Controller;
             var actionName = actionDescriptor.ActionName;
-            Type type = controller.GetType();
-            var instance = Activator.CreateInstance(type);
-            var action = type.GetMethods().SingleOrDefault(m => String.Equals(m.Name, actionName, StringComparison.CurrentCultureIgnoreCase));
+            var action = controller.GetType().GetMethod(actionName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
 
-            if (instance == null || action == null)
+            if (action == null)
             {
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
             }
 
             try
             {
-                return (HttpResponseMessage) action.Invoke(instance, new object[] { });
+                return (HttpResponseMessage) action.Invoke(controller, new object[] { });
             }
             catch
             {
