@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace LocalApi
@@ -15,7 +16,11 @@ namespace LocalApi
         
         public ICollection<Type> GetControllerTypes(IEnumerable<Assembly> assemblies)
         {
-            throw new NotImplementedException();
+            return
+                assemblies.SelectMany(assembly => assembly.GetTypes()
+                        .Where(type => type.IsPublic && !type.IsAbstract &&
+                                       type.IsSubclassOf(typeof(HttpController))))
+                    .ToList();
         }
 
         #endregion

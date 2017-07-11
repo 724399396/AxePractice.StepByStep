@@ -5,6 +5,9 @@ namespace LocalApi
 {
     class DefaultDependencyResolver : IDependencyResolver
     {
+        private Dictionary<Type, object> typeToInstance;
+        private HashSet<Type> controllerTypes;
+
         #region Please modify the following code to pass the test
 
         /*
@@ -24,17 +27,27 @@ namespace LocalApi
 
         internal DefaultDependencyResolver(IEnumerable<Type> controllerTypes)
         {
-            throw new NotImplementedException();
+            typeToInstance = new Dictionary<Type, object>();
+            this.controllerTypes = new HashSet<Type>(controllerTypes);
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            typeToInstance = null;
+            controllerTypes = null;
         }
 
         public object GetService(Type type)
         {
-            throw new NotImplementedException();
+            if (!controllerTypes.Contains(type))
+            {
+                return null;
+            }
+            if (!typeToInstance.ContainsKey(type))
+            {
+                typeToInstance[type] = Activator.CreateInstance(type);
+            }
+            return typeToInstance[type];
         }
 
         #endregion
