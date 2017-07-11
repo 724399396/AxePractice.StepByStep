@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{FB24FDE7-AB4D-4153-9DF6-572CB97AAA50}</ProjectGuid>
+    <ProjectGuid>{EBB31EC6-21F8-4DBE-AC57-F2AE847835E2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LocalApi</RootNamespace>
-    <AssemblyName>LocalApi</AssemblyName>
+    <RootNamespace>LocalApi.Test.Controllers</RootNamespace>
+    <AssemblyName>LocalApi.Test.Controllers</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -32,28 +32,30 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Net" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionDescriptor.cs" />
-    <Compile Include="ControllerActionInvoker.cs" />
-    <Compile Include="DefaultDependencyResolver.cs" />
-    <Compile Include="HttpController.cs" />
-    <Compile Include="DefaultHttpControllerTypeResolver.cs" />
-    <Compile Include="HttpRoute.cs" />
-    <Compile Include="IDependencyResolver.cs" />
-    <Compile Include="IHttpControllerTypeResolver.cs" />
-    <Compile Include="MethodAttributes\HttpDelete.cs" />
-    <Compile Include="MethodAttributes\HttpGet.cs" />
-    <Compile Include="MethodAttributes\HttpPost.cs" />
-    <Compile Include="MethodAttributes\HttpPut.cs" />
-    <Compile Include="MethodAttributes\IMethodProvider.cs" />
+    <Compile Include="Ambiguous\AmbiguousController.cs" />
+    <Compile Include="ControllerWithErrorAction.cs" />
+    <Compile Include="ControllerWithMismatchedMethod.cs" />
+    <Compile Include="ControllerWithMultipleMethodAnnotation.cs" />
+    <Compile Include="ControllerWithNonPublicAction.cs" />
+    <Compile Include="ControllerWithoutAction.cs" />
+    <Compile Include="ControllerWithoutMethodAnnotation.cs" />
+    <Compile Include="ControllerWithPublicAction.cs" />
+    <Compile Include="NonPublicController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="LocalApi.pdf" />
+    <ProjectReference Include="..\LocalApi\LocalApi.csproj">
+      <Project>{FB24FDE7-AB4D-4153-9DF6-572CB97AAA50}</Project>
+      <Name>LocalApi</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

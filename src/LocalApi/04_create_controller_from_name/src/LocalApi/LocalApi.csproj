@@ -39,6 +39,8 @@
   <ItemGroup>
     <Compile Include="ActionDescriptor.cs" />
     <Compile Include="ControllerActionInvoker.cs" />
+    <Compile Include="DefaultControllerFactory.cs" />
+    <Compile Include="IControllerFactory.cs" />
     <Compile Include="DefaultDependencyResolver.cs" />
     <Compile Include="HttpController.cs" />
     <Compile Include="DefaultHttpControllerTypeResolver.cs" />
