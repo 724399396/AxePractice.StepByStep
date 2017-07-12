@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
 
 namespace LocalApi
 {
@@ -17,8 +20,16 @@ namespace LocalApi
              * form the controllerTypes collection to get the correct controller type,
              * then create instance from resolver.
              */
-
-            throw new NotImplementedException();
+            var matchType = controllerTypes.Where(t => t.Name.Equals(controllerName, StringComparison.OrdinalIgnoreCase)).ToList();
+            if (!matchType.Any())
+            {
+                return null;
+            }
+            if (matchType.Count() > 1)
+            {
+                throw new ArgumentException();
+            }
+            return (HttpController) resolver.GetService(matchType.First());
 
             #endregion
         }
