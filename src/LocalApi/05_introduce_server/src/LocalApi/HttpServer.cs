@@ -9,6 +9,8 @@ namespace LocalApi
 {
     public class HttpServer : HttpMessageHandler
     {
+        readonly HttpConfiguration configuration;
+
         #region Please implement the following method to pass the test
 
         /*
@@ -19,13 +21,19 @@ namespace LocalApi
 
         public HttpServer(HttpConfiguration configuration)
         {
-            throw new NotImplementedException();
+            this.configuration = configuration;
         }
 
         protected override Task<HttpResponseMessage> SendAsync(
             HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var route = configuration.Routes.GetRouteData(request);
+            if (route == null)
+            {
+                return Task.FromResult(new HttpResponseMessage(HttpStatusCode.NotFound));
+            }
+            return Task.FromResult(ControllerActionInvoker.InvokeAction(route, configuration.CachedControllerTypes,
+                configuration.DependencyResolver, configuration.ControllerFactory));
         }
 
         #endregion

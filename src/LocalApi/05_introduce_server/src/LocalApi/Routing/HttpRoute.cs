@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net.Http;
 
 namespace LocalApi.Routing
@@ -17,11 +18,30 @@ namespace LocalApi.Routing
          * interfaces.
          */
 
+        private void IdentifierCheck(string identifier)
+        {
+            if (identifier == null)
+            {
+                return;
+            }
+            var specialCharacter = @"/@.#";
+
+            if (identifier.Length == 0 ||
+                specialCharacter.Any(identifier.Contains) ||
+                Char.IsDigit(identifier.First()))
+            {
+                throw new ArgumentException();
+            }
+        }
+
         public HttpRoute(string controllerName, string actionName, HttpMethod methodConstraint, string uriTemplate)
         {
-            ControllerName = controllerName;
-            ActionName = actionName;
-            MethodConstraint = methodConstraint;
+            IdentifierCheck(controllerName);
+            IdentifierCheck(actionName);
+
+            ControllerName = controllerName ?? throw new ArgumentNullException(nameof(controllerName));
+            ActionName = actionName ?? throw new ArgumentNullException(nameof(actionName));
+            MethodConstraint = methodConstraint ?? throw new ArgumentNullException(nameof(methodConstraint));
             UriTemplate = uriTemplate;
         }
 
