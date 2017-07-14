@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Linq;
 using System.Net.Http;
+using Microsoft.CSharp;
 
 namespace LocalApi.Routing
 {
     public class HttpRoute
     {
-        public HttpRoute(string controllerName, string actionName, HttpMethod methodConstraint) : 
+        public HttpRoute(string controllerName, string actionName, HttpMethod methodConstraint) :
             this(controllerName, actionName, methodConstraint, null)
         {
         }
@@ -20,15 +20,8 @@ namespace LocalApi.Routing
 
         private void IdentifierCheck(string identifier)
         {
-            if (identifier == null)
-            {
-                return;
-            }
-            var specialCharacter = @"/@.#";
-
-            if (identifier.Length == 0 ||
-                specialCharacter.Any(identifier.Contains) ||
-                Char.IsDigit(identifier.First()))
+            var cSharpCodeProvider = new CSharpCodeProvider();
+            if (!cSharpCodeProvider.IsValidIdentifier(identifier))
             {
                 throw new ArgumentException();
             }
@@ -36,12 +29,24 @@ namespace LocalApi.Routing
 
         public HttpRoute(string controllerName, string actionName, HttpMethod methodConstraint, string uriTemplate)
         {
+            if (controllerName == null)
+            {
+                throw new ArgumentNullException(nameof(controllerName));
+            }
+            if (actionName == null)
+            {
+                throw new ArgumentNullException(nameof(actionName));
+            }
+            if (methodConstraint == null)
+            {
+                throw new ArgumentNullException(nameof(methodConstraint));
+            }
             IdentifierCheck(controllerName);
             IdentifierCheck(actionName);
 
-            ControllerName = controllerName ?? throw new ArgumentNullException(nameof(controllerName));
-            ActionName = actionName ?? throw new ArgumentNullException(nameof(actionName));
-            MethodConstraint = methodConstraint ?? throw new ArgumentNullException(nameof(methodConstraint));
+            ControllerName = controllerName;
+            ActionName = actionName;
+            MethodConstraint = methodConstraint;
             UriTemplate = uriTemplate;
         }
 

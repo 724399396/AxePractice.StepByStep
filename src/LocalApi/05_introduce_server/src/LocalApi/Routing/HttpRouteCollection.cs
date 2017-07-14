@@ -11,7 +11,7 @@ namespace LocalApi.Routing
 
         /*
          * An http route collection stores all the routes for application. You can
-         * add additional field or private method but you should not modify the 
+         * add additional field or private method but you should not modify the
          * public interfaces.
          */
         List<HttpRoute> httpRoutes = new List<HttpRoute>();

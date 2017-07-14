@@ -1,9 +1,7 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using LocalApi.Routing;
 
 namespace LocalApi
 {
@@ -32,8 +30,8 @@ namespace LocalApi
             {
                 return Task.FromResult(new HttpResponseMessage(HttpStatusCode.NotFound));
             }
-            return Task.FromResult(ControllerActionInvoker.InvokeAction(route, configuration.CachedControllerTypes,
-                configuration.DependencyResolver, configuration.ControllerFactory));
+            return Task.Run(() => ControllerActionInvoker.InvokeAction(route, configuration.CachedControllerTypes,
+                configuration.DependencyResolver, configuration.ControllerFactory), cancellationToken);
         }
 
         #endregion
