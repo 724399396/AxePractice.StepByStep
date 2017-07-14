@@ -20,10 +20,12 @@ namespace LocalApi.Routing
 
         private void IdentifierCheck(string identifier)
         {
-            var cSharpCodeProvider = new CSharpCodeProvider();
-            if (!cSharpCodeProvider.IsValidIdentifier(identifier))
+            using (var cSharpCodeProvider = new CSharpCodeProvider())
             {
-                throw new ArgumentException();
+                if (!cSharpCodeProvider.IsValidIdentifier(identifier))
+                {
+                    throw new ArgumentException();
+                }
             }
         }
 
