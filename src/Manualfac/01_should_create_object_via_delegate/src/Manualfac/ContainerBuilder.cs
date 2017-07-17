@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Manualfac
 {
     public class ContainerBuilder
     {
+        private Dictionary<Type, object> dict = new Dictionary<Type, object>();
+
         #region Please modify the following code to pass the test
 
         /*
@@ -19,12 +22,18 @@ namespace Manualfac
 
         public void Register<T>(Func<IComponentContext, T> func)
         {
-            throw new NotImplementedException();
+            dict[typeof(T)] = func;
         }
 
         public IComponentContext Build()
         {
-            throw new NotImplementedException();
+            if (dict == null)
+            {
+                throw new InvalidOperationException();
+            }
+            var buildDict = dict;
+            dict = null;
+            return new ComponentContext(buildDict);
         }
 
         #endregion
