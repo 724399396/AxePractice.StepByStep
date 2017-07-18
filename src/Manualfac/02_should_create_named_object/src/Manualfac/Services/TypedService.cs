@@ -5,7 +5,6 @@ namespace Manualfac.Services
     class TypedService : Service, IEquatable<TypedService>
     {
         private readonly Type serviceType;
-
         #region Please modify the following code to pass the test
 
         /*

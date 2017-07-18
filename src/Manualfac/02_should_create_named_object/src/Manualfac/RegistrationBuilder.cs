@@ -15,7 +15,6 @@ namespace Manualfac
             /*
              * Please support registration by type.
              */
-
             Service = new TypedService(typeof(TService));
             return this;
 
