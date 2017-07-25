@@ -29,7 +29,6 @@ namespace Manualfac
             var resolvedComponent = componentRegistration.Activator.Activate(this);
             disposer.AddItemsToDispose(resolvedComponent);
             return resolvedComponent;
-
             #endregion
         }
 
@@ -43,7 +42,6 @@ namespace Manualfac
              */
 
             return new LifetimeScope(componentRegistry);
-
             #endregion
         }
 
