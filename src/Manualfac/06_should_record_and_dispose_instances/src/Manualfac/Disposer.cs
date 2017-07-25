@@ -6,7 +6,7 @@ namespace Manualfac
     class Disposer : Disposable
     {
         #region Please implements the following methods
-        readonly ISet<IDisposable> needDisposes = new HashSet<IDisposable>();
+        Stack<IDisposable> needDisposes = new Stack<IDisposable>();
         /*
          * The disposer is used for disposing all disposable items added when it is disposed.
          */
@@ -16,7 +16,7 @@ namespace Manualfac
             var disposable = item as IDisposable;
             if (disposable != null)
             {
-                needDisposes.Add(disposable);
+                needDisposes.Push(disposable);
             }
         }
 
@@ -26,6 +26,7 @@ namespace Manualfac
             {
                 needDispose.Dispose();
             }
+            needDisposes = null;
         }
 
         #endregion

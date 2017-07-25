@@ -6,7 +6,7 @@ namespace Manualfac
     {
         readonly ComponentRegistry componentRegistry;
         readonly Disposer disposer = new Disposer();
-        
+
         public LifetimeScope(ComponentRegistry componentRegistry)
         {
             this.componentRegistry = componentRegistry;
