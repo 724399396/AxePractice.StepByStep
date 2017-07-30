@@ -87,7 +87,10 @@ namespace Manualfac
         {
             if (disposing)
             {
-                Disposer.Dispose();
+                lock (syncObj) 
+                {
+                    Disposer.Dispose();
+                }
             }
 
             base.Dispose(disposing);

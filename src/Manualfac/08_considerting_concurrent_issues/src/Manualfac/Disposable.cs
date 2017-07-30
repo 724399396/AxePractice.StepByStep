@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace Manualfac
 {
@@ -17,7 +18,7 @@ namespace Manualfac
             {
                 return;
             }
-            disposedStatus = HaveBeenDisposed;
+            disposedStatus = Interlocked.Exchange(ref disposedStatus, HaveBeenDisposed);
 
             Dispose(true);
             GC.SuppressFinalize(this);
@@ -27,6 +28,11 @@ namespace Manualfac
         {
         }
 
-        protected bool IsDisposed => disposedStatus == HaveBeenDisposed;
+        protected bool IsDisposed {
+            get {
+                Interlocked.MemoryBarrier();
+                return disposedStatus == HaveBeenDisposed;
+            }
+        } 
     }
 }
