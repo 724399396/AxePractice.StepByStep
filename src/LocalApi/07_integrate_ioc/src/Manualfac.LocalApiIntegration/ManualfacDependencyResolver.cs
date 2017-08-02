@@ -6,6 +6,7 @@ namespace Manualfac.LocalApiIntegration
     public class ManualfacDependencyResolver : IDependencyResolver
     {
         #region Please implement the following class
+        readonly Container roopScope;
 
         /*
          * We should create a manualfac dependency resolver so that we can integrate it
@@ -16,22 +17,22 @@ namespace Manualfac.LocalApiIntegration
 
         public ManualfacDependencyResolver(Container rootScope)
         {
-            throw new NotImplementedException();
+            this.roopScope = rootScope;
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            roopScope.Dispose();
         }
 
         public object GetService(Type type)
         {
-            throw new NotImplementedException();
+            return roopScope.Resolve(type);
         }
 
         public IDependencyScope BeginScope()
         {
-            throw new NotImplementedException();
+            return new ManualfacDependencyScope(roopScope.BeginLifetimeScope());
         }
 
         #endregion

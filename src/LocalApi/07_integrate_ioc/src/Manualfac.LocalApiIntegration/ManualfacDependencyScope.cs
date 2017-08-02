@@ -5,7 +5,15 @@ namespace Manualfac.LocalApiIntegration
 {
     class ManualfacDependencyScope : IDependencyScope
     {
+
+
         #region Please implement the class
+        readonly ILifetimeScope lifetimeScope;
+
+        public ManualfacDependencyScope(ILifetimeScope lifetimeScope)
+        {
+            this.lifetimeScope = lifetimeScope;
+        }
 
         /*
          * We should create a manualfac dependency scope so that we can integrate it
@@ -15,12 +23,12 @@ namespace Manualfac.LocalApiIntegration
          */
         public void Dispose()
         {
-            throw new NotImplementedException();
+            lifetimeScope.Dispose();
         }
 
         public object GetService(Type type)
         {
-            throw new NotImplementedException();
+            return lifetimeScope.Resolve(type);
         }
 
         #endregion
