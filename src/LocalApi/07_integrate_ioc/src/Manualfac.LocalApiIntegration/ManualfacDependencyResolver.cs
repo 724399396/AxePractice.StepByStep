@@ -7,7 +7,6 @@ namespace Manualfac.LocalApiIntegration
     {
         #region Please implement the following class
         readonly Container roopScope;
-
         /*
          * We should create a manualfac dependency resolver so that we can integrate it
          * to LocalApi.

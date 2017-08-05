@@ -16,6 +16,13 @@ namespace LocalApi
             this.configuration = configuration;
         }
 
+        public Task<HttpResponseMessage> Process(
+            HttpRequestMessage request,
+            CancellationToken cancellationToken)
+        {
+            return SendAsync(request, cancellationToken);
+        }
+
         protected override async Task<HttpResponseMessage> SendAsync(
             HttpRequestMessage request,
             CancellationToken cancellationToken)
@@ -46,6 +53,7 @@ namespace LocalApi
             {
                 request.DisposeRequestContext();
             }
+
             #endregion
         }
 
