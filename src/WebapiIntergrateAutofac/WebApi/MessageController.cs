@@ -10,25 +10,18 @@ namespace WebApi
 {
     public class MessageController : ApiController
     {
-        private readonly MessageSaver messageSaver;
+        private readonly MessageProducer messageProducer;
 
-        public MessageController(MessageSaver messageSaver)
+        public MessageController(MessageProducer messageProducer)
         {
-            this.messageSaver = messageSaver;
+            this.messageProducer = messageProducer;
         }
 
         [HttpGet]
+        [ElpasedTimeLogFilter]
         public HttpResponseMessage Get(int id)
         {
-            return Request.CreateResponse(HttpStatusCode.OK, new {message = messageSaver.Hello(id)});
-        }
-    }
-
-    public class MessageSaver
-    {
-        public string Hello(int id)
-        {
-            return $"Hello from {id}";
+            return Request.CreateResponse(HttpStatusCode.OK, new {message = messageProducer.Hello(id)});
         }
     }
 }

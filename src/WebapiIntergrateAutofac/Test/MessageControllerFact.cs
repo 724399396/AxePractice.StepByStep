@@ -28,6 +28,8 @@ namespace Test
                 var content = await response.Content.ReadAsStringAsync();
 
                 Assert.Equal("Hello from 10", JsonConvert.DeserializeAnonymousType(content, new { message = default(string)}).message);
+                Assert.Equal(1, Logger.Logs.Count);
+                Assert.Contains("action used", Logger.Logs[0]);
             }
         }
     }
