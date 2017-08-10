@@ -10,7 +10,7 @@ namespace WebApi
         public static void Init(HttpConfiguration configuration)
         {
             configuration.Routes.MapHttpRoute("message-id", "message/{id}", new {controller = "Message"});
-
+            configuration.Routes.MapHttpRoute("another-message", "another-message", new {controller = "Message"});
 
             var builder = new ContainerBuilder();
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());

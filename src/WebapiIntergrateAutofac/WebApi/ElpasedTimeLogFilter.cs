@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 
@@ -19,7 +18,8 @@ namespace WebApi
         {
             base.OnActionExecuted(actionExecutedContext);
             Stopwatch stopWatch = (Stopwatch) actionExecutedContext.Request.Properties[StopWatchKey];
-            Logger.Log($"action used {stopWatch.ElapsedMilliseconds}ms to response");
+            Logger.Log($"{actionExecutedContext.ActionContext.ActionDescriptor.ActionName} " +
+                       $"action used {stopWatch.ElapsedMilliseconds}ms to response");
         }
     }
 }

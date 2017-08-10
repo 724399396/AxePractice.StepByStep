@@ -23,5 +23,11 @@ namespace WebApi
         {
             return Request.CreateResponse(HttpStatusCode.OK, new {message = messageProducer.Hello(id)});
         }
+
+        [HttpGet]
+        public HttpResponseMessage GetWithoutLog()
+        {
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
     }
 }
