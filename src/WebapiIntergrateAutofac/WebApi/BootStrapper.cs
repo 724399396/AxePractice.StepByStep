@@ -7,17 +7,33 @@ namespace WebApi
 {
     public class BootStrapper
     {
-        public static void Init(HttpConfiguration configuration)
+        private readonly ContainerBuilder containerBuilder = new ContainerBuilder();
+
+        public void Init(HttpConfiguration configuration)
+        {
+            BuildRoute(configuration);
+            BuildContainer(configuration);
+        }
+
+        public ContainerBuilder GetContainerBuilder()
+        {
+            return containerBuilder;
+        }
+
+        private void BuildContainer(HttpConfiguration configuration)
+        {
+
+            containerBuilder.RegisterApiControllers(Assembly.GetExecutingAssembly());
+            containerBuilder.RegisterType<MessageProducer>().InstancePerLifetimeScope();
+            var container = containerBuilder.Build();
+
+            configuration.DependencyResolver = new AutofacWebApiDependencyResolver(container);
+        }
+
+        private void BuildRoute(HttpConfiguration configuration)
         {
             configuration.Routes.MapHttpRoute("message-id", "message/{id}", new {controller = "Message"});
             configuration.Routes.MapHttpRoute("another-message", "another-message", new {controller = "Message"});
-
-            var builder = new ContainerBuilder();
-            builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
-            builder.RegisterType<MessageProducer>().InstancePerLifetimeScope();
-            var container = builder.Build();
-
-            configuration.DependencyResolver = new AutofacWebApiDependencyResolver(container);
         }
     }
 }

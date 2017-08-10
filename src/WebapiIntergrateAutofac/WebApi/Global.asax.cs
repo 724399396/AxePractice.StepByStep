@@ -1,14 +1,23 @@
 ﻿using System;
 using System.Web.Http;
+using Autofac;
+using Test;
 
 namespace WebApi
 {
     public class Global : System.Web.HttpApplication
     {
+        private BootStrapper bootStrapper;
 
-        protected void Application_Start(object sender, EventArgs e)
+        public Global(BootStrapper bootStrapper)
         {
-            BootStrapper.Init(GlobalConfiguration.Configuration);
+            this.bootStrapper = bootStrapper;
+        }
+
+        protected void Application_Start(object  sender, EventArgs e)
+        {
+            bootStrapper.GetContainerBuilder().RegisterType<Logger>().As<ILogger>();
+            bootStrapper.Init(GlobalConfiguration.Configuration);
         }
     }
 }

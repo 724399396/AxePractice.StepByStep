@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
+using Test;
 
 namespace WebApi
 {
-    public static class Logger
+    public class Logger : ILogger
     {
-        public static List<string> Logs { get; } = new List<string>();
-        private static readonly object syncObj = new object();
+        public List<string> Logs { get; } = new List<string>();
+        private readonly object syncObj = new object();
 
-        public static void Log(string str)
+        public void Log(string str)
         {
             lock (syncObj)
             {

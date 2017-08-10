@@ -8,6 +8,7 @@ using System.Web.Http;
 
 namespace WebApi
 {
+    [ElpasedTimeLogFilter]
     public class MessageController : ApiController
     {
         private readonly MessageProducer messageProducer;
@@ -18,7 +19,6 @@ namespace WebApi
         }
 
         [HttpGet]
-        [ElpasedTimeLogFilter]
         public HttpResponseMessage Get(int id)
         {
             return Request.CreateResponse(HttpStatusCode.OK, new {message = messageProducer.Hello(id)});
