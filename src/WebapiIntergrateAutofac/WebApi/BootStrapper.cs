@@ -1,3 +1,4 @@
+using System.Net.Http;
 using System.Reflection;
 using System.Web.Http;
 using Autofac;
@@ -10,7 +11,13 @@ namespace WebApi
         public IContainer Init(HttpConfiguration configuration)
         {
             BuildRoute(configuration);
+            MessageHandler(configuration);
             return BuildContainer(configuration);
+        }
+
+        private void MessageHandler(HttpConfiguration configuration)
+        {
+            configuration.MessageHandlers.Add(new LogHandler());
         }
 
         IContainer BuildContainer(HttpConfiguration configuration)

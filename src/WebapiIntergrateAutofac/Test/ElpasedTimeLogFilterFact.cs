@@ -23,7 +23,7 @@ namespace Test
             var response =
                 await Client.SendAsync(new HttpRequestMessage(new HttpMethod("GET"), "http://www.url.com/message/10"));
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-            logger.Verify(logger => logger.Log(It.IsAny<string>()), Times.Once);
+            logger.Verify(logger => logger.Log(It.IsAny<string>()), Times.Exactly(2));
         }
 
         [Fact]
@@ -34,7 +34,7 @@ namespace Test
                     new HttpRequestMessage(new HttpMethod("GET"), "http://www.url.com/another-message"));
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
-            logger.Verify(logger => logger.Log(It.IsAny<string>()), Times.Once);
+            logger.Verify(logger => logger.Log(It.IsAny<string>()), Times.Exactly(2));
         }
     }
 }

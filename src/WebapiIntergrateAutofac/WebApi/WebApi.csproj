@@ -99,6 +99,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BootStrapper.cs" />
+    <Compile Include="LogHandler.cs" />
     <Compile Include="ElpasedTimeLogFilter.cs" />
     <Compile Include="ILogger.cs" />
     <Compile Include="Logger.cs" />

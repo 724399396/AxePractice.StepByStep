@@ -4,7 +4,6 @@ using System.Web.Http;
 
 namespace WebApi
 {
-    [ElpasedTimeLogFilter]
     public class MessageController : ApiController
     {
         readonly MessageProducer _messageProducer;
