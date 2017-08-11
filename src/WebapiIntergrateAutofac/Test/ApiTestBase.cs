@@ -11,21 +11,22 @@ namespace Test
     {
         protected HttpServer Server;
         protected HttpClient Client;
-        protected Mock<ILogger> Logger;
+        private IContainer container;
 
         public ApiTestBase()
         {
             HttpConfiguration configuration = new HttpConfiguration();
             BootStrapper bootStrapper = new BootStrapper();
-            Logger = new Mock<ILogger>();
-            Logger.Setup(log => log.Log(It.IsAny<string>()));
-            ILogger logger = Logger.Object;
-            ContainerBuilder containerBuilder = new ContainerBuilder();
-            containerBuilder.RegisterInstance(logger).As<ILogger>();
-            bootStrapper.Init(configuration, containerBuilder);
-
+            container =  bootStrapper.Init(configuration);
             Server = new HttpServer(configuration);
             Client = new HttpClient(Server);
+        }
+
+        protected void MockDepedency<T>(T t) where T : class
+        {
+            var containerBuilder = new ContainerBuilder();
+            containerBuilder.RegisterInstance(t).As<T>();
+            containerBuilder.Update(container);
         }
 
         public void Dispose()
