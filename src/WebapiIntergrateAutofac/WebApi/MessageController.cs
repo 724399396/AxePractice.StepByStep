@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
-using System.Web;
 using System.Web.Http;
 
 namespace WebApi
@@ -11,17 +7,17 @@ namespace WebApi
     [ElpasedTimeLogFilter]
     public class MessageController : ApiController
     {
-        private readonly MessageProducer messageProducer;
+        readonly MessageProducer _messageProducer;
 
         public MessageController(MessageProducer messageProducer)
         {
-            this.messageProducer = messageProducer;
+            this._messageProducer = messageProducer;
         }
 
         [HttpGet]
         public HttpResponseMessage Get(int id)
         {
-            return Request.CreateResponse(HttpStatusCode.OK, new {message = messageProducer.Hello(id)});
+            return Request.CreateResponse(HttpStatusCode.OK, new {message = _messageProducer.Hello(id)});
         }
 
         [HttpGet]

@@ -9,29 +9,29 @@ namespace Test
 {
     public class ApiTestBase : IDisposable
     {
-        protected HttpServer server;
-        protected HttpClient client;
-        protected Mock<ILogger> mock;
-        protected ILogger logger;
+        protected HttpServer Server;
+        protected HttpClient Client;
+        protected Mock<ILogger> Logger;
 
         public ApiTestBase()
         {
             HttpConfiguration configuration = new HttpConfiguration();
             BootStrapper bootStrapper = new BootStrapper();
-            mock = new Mock<ILogger>();
-            mock.Setup(log => log.Log(It.IsAny<string>()));
-            logger = mock.Object;
-            bootStrapper.GetContainerBuilder().RegisterInstance(logger).As<ILogger>();
-            bootStrapper.Init(configuration);
+            Logger = new Mock<ILogger>();
+            Logger.Setup(log => log.Log(It.IsAny<string>()));
+            ILogger logger = Logger.Object;
+            ContainerBuilder containerBuilder = new ContainerBuilder();
+            containerBuilder.RegisterInstance(logger).As<ILogger>();
+            bootStrapper.Init(configuration, containerBuilder);
 
-            server = new HttpServer(configuration);
-            client = new HttpClient(server);
+            Server = new HttpServer(configuration);
+            Client = new HttpClient(Server);
         }
 
         public void Dispose()
         {
-            client?.Dispose();
-            server?.Dispose();
+            Client?.Dispose();
+            Server?.Dispose();
         }
     }
 }
