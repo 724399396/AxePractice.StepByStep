@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Xunit;
 
 namespace HandleResponsePractice
@@ -20,9 +21,10 @@ namespace HandleResponsePractice
             // I just want { id, sizes } here. Please deserialize the content. You cannot
             // change any code beyond the region.
 
+            object content = JsonConvert.DeserializeAnonymousType(await response.Content.ReadAsStringAsync(), new { id = default(int), sizes = default(string[]) }); ;
+
             #endregion
 
-            object content = null;
 
             Assert.Equal(2, content.GetPublicDeclaredProperties().Length);
             Assert.Equal(1, content.GetPropertyValue<int>("id"));
@@ -46,9 +48,13 @@ namespace HandleResponsePractice
 
             // I want { id, name, sizes } here. Please get properties from the content. 
             // You cannot change any code beyond the region.
-            
+
+            var result = JsonConvert.DeserializeAnonymousType(content.ToString(), new { id = default(int), name=default(string), sizes = default(string[]) }); ;
+            id = result.id;
+            name = result.name;
+            sizes = result.sizes;
             #endregion
-            
+
             Assert.Equal(1, id);
             Assert.Equal("Apple", name);
             Assert.Equal(new[] { "Large", "Medium", "Small" }, sizes);
