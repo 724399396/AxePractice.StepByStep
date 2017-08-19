@@ -16,16 +16,16 @@ namespace HandleResponsePractice
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
+            object content = null;
+
             #region Please modifies the following code to pass the test
 
             // I just want { id, sizes } here. Please deserialize the content. You cannot
             // change any code beyond the region.
 
-            object content = JsonConvert.DeserializeAnonymousType(await response.Content.ReadAsStringAsync(), new { id = default(int), sizes = default(string[]) }); ;
+            content = JsonConvert.DeserializeAnonymousType(await response.Content.ReadAsStringAsync(), new { id = default(int), sizes = default(string[]) }); ;
 
             #endregion
-
-
             Assert.Equal(2, content.GetPublicDeclaredProperties().Length);
             Assert.Equal(1, content.GetPropertyValue<int>("id"));
             Assert.Equal(new [] { "Large", "Medium", "Small" }, content.GetPropertyValue<IEnumerable<string>>("sizes"));
