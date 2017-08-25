@@ -1,4 +1,9 @@
 using System;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Security.Claims;
+using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http.Controllers;
@@ -21,7 +26,15 @@ namespace SessionModuleClient
              * annotated by this attribute.
              */
 
-            throw new NotImplementedException();
+            ClaimsPrincipal principal = actionContext.RequestContext.Principal as ClaimsPrincipal;
+
+            bool? success = principal?.Identities.SelectMany(i => i.Claims).Any(i => i.Type == "userFullName");
+
+            if (!success.HasValue || !success.Value)
+            {
+                actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.Unauthorized);
+            }
+            return Task.CompletedTask;
 
             #endregion
         }

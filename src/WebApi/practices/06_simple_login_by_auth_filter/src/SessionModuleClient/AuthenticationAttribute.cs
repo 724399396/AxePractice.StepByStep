@@ -1,12 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web.Http;
 using System.Web.Http.Filters;
+using Newtonsoft.Json;
 
 namespace SessionModuleClient
 {
     public class AuthenticationAttribute : Attribute, IAuthenticationFilter
     {
+        const string SessionCookieKey = "X-Session-Token";
+
         public bool AllowMultiple { get; } = false;
 
         public bool RedirectToLoginOnChallenge { get; set; }
@@ -30,13 +40,45 @@ namespace SessionModuleClient
              * If user session cannot be retrived, then the context principal
              * should be an empty ClaimsPrincipal (unauthenticated).
              */
+            var authorization = context.Request.Headers.GetCookies(SessionCookieKey).FirstOrDefault();
 
-            throw new NotImplementedException();
+            if (authorization == null)
+            {
+                context.Principal = new ClaimsPrincipal();
+                return;
+            }
+
+            var token = authorization[SessionCookieKey].Value;
+
+            var httpClient = context.Request.GetDependencyScope().GetService(typeof(HttpClient)) as HttpClient;
+
+            Uri requestUri = context.Request.RequestUri;
+            var request = new HttpRequestMessage(HttpMethod.Get, $"{requestUri.Scheme}://{requestUri.UserInfo}{requestUri.Authority}/session/{token}");
+
+            HttpResponseMessage httpResponseMessage = await httpClient.SendAsync(request, cancellationToken);
+
+            if (!httpResponseMessage.IsSuccessStatusCode)
+            {
+                return;
+            }
+
+            var response = JsonConvert.DeserializeAnonymousType(await httpResponseMessage.Content.ReadAsStringAsync(), new
+            {
+                token = default(string),
+                userFullname = default(string),
+            });
+
+            var principal = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+            {
+                new Claim("token", response.token),
+                new Claim("userFullName", response.userFullname), 
+            }));
+            context.Principal = principal;
 
             #endregion
         }
 
-        public Task ChallengeAsync(
+        public async Task ChallengeAsync(
             HttpAuthenticationChallengeContext context,
             CancellationToken cancellationToken)
         {
@@ -50,7 +92,10 @@ namespace SessionModuleClient
              * response.
              */
 
-            throw new NotImplementedException();
+            if (RedirectToLoginOnChallenge)
+            {
+                context.Result = new RedirectToLoginPageIfUnauthorizedResult(context.Request, context.Result);
+            }
 
             #endregion
         }
