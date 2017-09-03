@@ -71,7 +71,13 @@ namespace StreamingFacts
              * Please construct the multipart form content to contains all the files.
              */
 
-            throw new NotImplementedException();
+            var multipartFormDataContent = new MultipartFormDataContent();
+            foreach (var streamContentPart in contentParts)
+            {
+                multipartFormDataContent.Add(new StreamContent(streamContentPart.Stream), streamContentPart.ContentType, streamContentPart.FileName);
+               
+            }
+            return multipartFormDataContent;
 
             #endregion
         }
