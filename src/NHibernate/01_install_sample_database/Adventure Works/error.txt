@@ -1,0 +1,11 @@
+*** Loading Data
+Bulk load: DataFileType was incorrectly specified as widechar. DataFileType will be assumed to be char because the data file does not have a Unicode signature.
+Loading [Person].[Address]
+Bulk load: DataFileType was incorrectly specified as widechar. DataFileType will be assumed to be char because the data file does not have a Unicode signature.
+Msg 4866, Level 16, State 1, Line 1804
+The bulk load failed. The column is too long in the data file for row 1, column 9. Verify that the field terminator and row terminator are specified correctly.
+Msg 7399, Level 16, State 1, Line 1804
+The OLE DB provider "BULK" for linked server "(null)" reported an error. The provider did not give any information about the error.
+Msg 7330, Level 16, State 2, Line 1804
+Cannot fetch a row from OLE DB provider "BULK" for linked server "(null)".
+** An error was encountered during execution of batch. Exiting.
