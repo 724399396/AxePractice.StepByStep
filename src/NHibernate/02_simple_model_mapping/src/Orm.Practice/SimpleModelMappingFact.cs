@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Reflection;
+using FluentNHibernate.Automapping;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using NHibernate;
@@ -30,7 +32,7 @@ namespace Orm.Practice
          *   Server instance, this value should set as `true`.
          */
 
-        protected string ConnectionString { get; } = "Data Source=localhost; Initial Catalog=AdventureWorks2014; Integrated Security=true;";
+        protected string ConnectionString { get; } = "Data Source=(local); Initial Catalog=AdventureWorks2014; Integrated Security=true;";
 
         #endregion
 
@@ -56,10 +58,11 @@ namespace Orm.Practice
              * `ISessionFactory` so `ISessionFactory` should be created first.
              */
 
+            var mappingCfg = new TypeSpecificAutomappingConfiguration();
+
             return Fluently.Configure()
                 .Database(MsSqlConfiguration.MsSql2012.ConnectionString(connectionString))
-                .Mappings(m =>
-                 m.FluentMappings.AddFromAssemblyOf<AddressMap>())
+                .Mappings(m => m.AutoMappings.Add(AutoMap.Assembly(Assembly.GetExecutingAssembly(), mappingCfg).UseOverridesFromAssembly(Assembly.GetExecutingAssembly())))
                 .BuildSessionFactory();
 
             #endregion
@@ -82,6 +85,14 @@ namespace Orm.Practice
         {
             session?.Dispose();
             sessionFactory?.Dispose();
+        }
+    }
+
+    class TypeSpecificAutomappingConfiguration : DefaultAutomappingConfiguration
+    {
+        public override bool ShouldMap(Type type)
+        {
+            return type != null && type == typeof(Address);
         }
     }
 }
