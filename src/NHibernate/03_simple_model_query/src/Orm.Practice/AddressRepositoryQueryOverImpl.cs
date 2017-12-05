@@ -1,8 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NHibernate;
+using NHibernate.Criterion;
+using NHibernate.Linq;
+using NHibernate.Transform;
 
 namespace Orm.Practice
 {
@@ -16,7 +20,7 @@ namespace Orm.Practice
         {
             #region Please implement the method
 
-            throw new NotImplementedException();
+            return Session.QueryOver<Address>().Where(a => a.Id == id).SingleOrDefault();
 
             #endregion
         }
@@ -25,7 +29,7 @@ namespace Orm.Practice
         {
             #region Please implement the method
 
-            throw new NotImplementedException();
+            return Session.QueryOver<Address>().Where(Restrictions.On<Address>(a => a.Id).IsIn(ids.ToList())).List();
 
             #endregion
         }
@@ -34,7 +38,7 @@ namespace Orm.Practice
         {
             #region Please implement the method
 
-            throw new NotImplementedException();
+            return Session.QueryOver<Address>().Where(a => a.City == city).List();
 
             #endregion
         }
@@ -43,7 +47,7 @@ namespace Orm.Practice
         {
             #region Please implement the method
 
-            throw new NotImplementedException();
+            return Session.QueryOver<Address>().Where(a => a.City == city).ListAsync();
 
             #endregion
         }
@@ -52,7 +56,7 @@ namespace Orm.Practice
         {
             #region Please implement the method
 
-            throw new NotImplementedException();
+            return Session.QueryOver<Address>().Where(a => a.City == city).ListAsync(cancellationToken);
 
             #endregion
         }
@@ -61,7 +65,9 @@ namespace Orm.Practice
         {
             #region Please implement the method
 
-            throw new NotImplementedException();
+            return Session.QueryOver<Address>().Where(a => a.City == city).SelectList(list => list.Select(x => x.Id).Select(x => x.AddressLine1))
+                .TransformUsing(new ResultTransformer(x => new KeyValuePair<int,string>((int) x[0], (string) x[1]), null))
+                .List<KeyValuePair<int, string>>();
 
             #endregion
         }
@@ -70,7 +76,7 @@ namespace Orm.Practice
         {
             #region Please implement the method
 
-            throw new NotImplementedException();
+            return Session.QueryOver<Address>().Where(a => a.City == city).SelectList(a => a.SelectGroup(x => x.PostalCode)).List<string>();
 
             #endregion
         }
