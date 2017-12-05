@@ -37,8 +37,7 @@ namespace Orm.Practice
         {
             #region Please implement the method
 
-            return Session.Query<Address>().Where(a => a.City == city).ToList();
-
+            return Session.Query<Address>().Where(a => a.City == city).OrderBy(a => a.Id).ToList();
             #endregion
         }
 
@@ -46,8 +45,7 @@ namespace Orm.Practice
         {
             #region Please implement the method
 
-            return await Session.Query<Address>().Where(a => a.City == city).ToListAsync();
-
+            return await Session.Query<Address>().Where(a => a.City == city).OrderBy(a => a.Id).ToListAsync();
             #endregion
         }
 
@@ -65,8 +63,7 @@ namespace Orm.Practice
         {
             #region Please implement the method
 
-            return Session.Query<Address>().Where(a => a.City == city).Select(a => new KeyValuePair<int, string>(a.Id, a.AddressLine1)).ToList();
-
+            return Session.Query<Address>().OrderBy(a => a.Id).Where(a => a.City == city).Select(a => new KeyValuePair<int, string>(a.Id, a.AddressLine1)).ToList();
             #endregion
         }
 

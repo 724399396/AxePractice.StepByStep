@@ -9,7 +9,7 @@ namespace Orm.Practice
 
         protected RepositoryBase(ISession session)
         {
-            Session = session ?? throw new ArgumentNullException(nameof(session));
+            Session = session;
         }
     }
 }

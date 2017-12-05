@@ -38,8 +38,7 @@ namespace Orm.Practice
         {
             #region Please implement the method
 
-            return Session.QueryOver<Address>().Where(a => a.City == city).List();
-
+            return Session.QueryOver<Address>().Where(a => a.City == city).OrderBy(a => a.Id).Asc.List();
             #endregion
         }
 
@@ -47,7 +46,7 @@ namespace Orm.Practice
         {
             #region Please implement the method
 
-            return Session.QueryOver<Address>().Where(a => a.City == city).ListAsync();
+            return Session.QueryOver<Address>().Where(a => a.City == city).OrderBy(a => a.Id).Asc.ListAsync();
 
             #endregion
         }
@@ -65,7 +64,9 @@ namespace Orm.Practice
         {
             #region Please implement the method
 
-            return Session.QueryOver<Address>().Where(a => a.City == city).SelectList(list => list.Select(x => x.Id).Select(x => x.AddressLine1))
+            return Session.QueryOver<Address>()
+                .OrderBy(a => a.Id).Asc
+                .Where(a => a.City == city).SelectList(list => list.Select(x => x.Id).Select(x => x.AddressLine1))
                 .TransformUsing(new ResultTransformer(x => new KeyValuePair<int,string>((int) x[0], (string) x[1]), null))
                 .List<KeyValuePair<int, string>>();
 
