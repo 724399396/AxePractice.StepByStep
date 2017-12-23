@@ -52,7 +52,14 @@ namespace Orm.Practice
 
             #region Please modify the code to save a new child to an existing parent
 
-            throw new NotImplementedException();
+            insertedParent.Children.Add(new Child
+            {
+                Name = "nq-child-1-parent-1",
+                Parent = parent,
+                IsForQuery = false
+            });
+            Session.SaveOrUpdate(insertedParent);
+            Session.Flush();
 
             #endregion
 
@@ -86,7 +93,9 @@ namespace Orm.Practice
             // This method will delete parent with the spcified name. And children
             // associated with this parent will also be deleted.
 
-            throw new NotImplementedException();
+            var parent = Session.Query<Parent>().Single(p => p.Name == parentName);
+            Session.Delete(parent);
+            Session.Flush();
 
             #endregion
         }
@@ -99,7 +108,24 @@ namespace Orm.Practice
             // with `childrenNames` should also be created and associated with
             // parent.
 
-            throw new NotImplementedException();
+            var parent = new Parent
+            {
+                Name = parentName,
+                Children = new List<Child>(),
+                IsForQuery = false
+            };
+
+            var children = childrenNames.Select(n => new Child
+            {
+                Name = n,
+                IsForQuery = false,
+                Parent = parent,
+            }).ToList();
+
+            children.ForEach(parent.Children.Add);
+
+            Session.SaveOrUpdate(parent);
+            Session.Flush();
 
             #endregion
         }
