@@ -1,0 +1,18 @@
+| child constructor lazy | parent constructor | parent's child lazy | child'parent lazy | query first child result             | query first parent result    |
+|------------------------+--------------------+---------------------+-------------------+--------------------------------------+------------------------------|
+| true                   | true               | true                | true              | child                                | parent                       |
+| true                   | true               | true                | false             | child + parent                       | parent                       |
+| true                   | true               | false               | true              | child                                | parent + child               |
+| true                   | true               | false               | false             | child + parent + child               | parent + child               |
+| true                   | false              | true                | true              | child + parent                       | parent                       |
+| true                   | false              | true                | false             | child + parent                       | parent                       |
+| true                   | false              | false               | true              | child + parent + (child join parent) | parent + (child join parent) |
+| true                   | false              | false               | false             | child + parent + (child join parent) | parent + (child join parent) |
+| false                  | true               | true                | true              | child                                | parent                       |
+| false                  | true               | true                | false             | child + parent                       | parent                       |
+| false                  | true               | false               | true              | child                                | parent + child               |
+| false                  | true               | false               | false             | child + parent + child               | parent + child               |
+| false                  | false              | true                | true              | child + parent                       | parent                       |
+| false                  | false              | true                | false             | child + parent                       | parent                       |
+| false                  | false              | false               | true              | child + parent + (child join parent) | parent + (child join parent) |
+| false                  | false              | false               | false             | child + parent + (child join parent) | parent + (child join parent) |

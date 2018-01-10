@@ -13,7 +13,6 @@ namespace Orm.Practice.Entities
 
         // It is totally okay if you do not want to do anything here.
         public virtual Parent Parent { get; set; }
-
         #endregion
     }
 
