@@ -21,12 +21,12 @@ namespace Orm.Practice.Entities
         public ChildMap()
         {
             #region Please modify the code to pass the test
-
+            Not.LazyLoad();
             Table("Child");
             Id(x => x.ChildId).Column("ChildID");
             Map(x => x.Name).Column("Name");
             Map(x => x.IsForQuery).Column("IsForQuery");
-            References(x => x.Parent, "ParentId").Cascade.None();
+            References(x => x.Parent, "ParentId").Cascade.None().Not.LazyLoad();
 
             #endregion
         }

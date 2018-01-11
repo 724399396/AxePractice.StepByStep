@@ -6,9 +6,9 @@ using FluentNHibernate.Cfg.Db;
 using NHibernate;
 using Xunit.Abstractions;
 
-namespace Orm.Practice
+namespace one_to_one
 {
-    public abstract class OrmFactBase : IDisposable
+    public abstract class FactBase : IDisposable
     {
         readonly ISessionFactory sessionFactory;
         public ITestOutputHelper Output { get; }
@@ -19,7 +19,7 @@ namespace Orm.Practice
         protected string ConnectionString { get; }
             = "Data Source=localhost\\SQLEXPRESS;Initial Catalog=AwesomeDb;Integrated Security=True;";
 
-        protected OrmFactBase(ITestOutputHelper output)
+        protected FactBase(ITestOutputHelper output)
         {
             Output = output;
             sessionFactory = CreateSessionFactory(ConnectionString);

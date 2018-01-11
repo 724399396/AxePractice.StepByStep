@@ -17,11 +17,11 @@ namespace Orm.Practice.Entities
         public ParentMap()
         {
             #region Please modify the code to pass the test
-
+            Not.LazyLoad();
             Table("Parent");
             Id(x => x.ParentId).Column("ParentID").GeneratedBy.Assigned();
             Map(x => x.Name).Column("Name");
-            HasMany(x => x.Children).KeyColumn("ParentID").Inverse().Cascade.AllDeleteOrphan();
+            HasMany(x => x.Children).KeyColumn("ParentID").Inverse().Cascade.AllDeleteOrphan().Not.LazyLoad();
             Map(x => x.IsForQuery).Column("IsForQuery");
 
             #endregion
