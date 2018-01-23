@@ -24,7 +24,7 @@ IF EXISTS (SELECT [name] FROM [master].[sys].[databases] WHERE [name] = N'Awesom
     DROP DATABASE [AwesomeDb];
 
 -- If the database has any other open connections close the network connection.
-IF @@ERROR = 3702 
+IF @@ERROR = 3702
     RAISERROR('[AwesomeDb] database cannot be dropped because there are still other open connections', 127, 127) WITH NOWAIT, LOG;
 GO
 
@@ -50,16 +50,16 @@ SET NOEXEC ON;
 END
 GO
 
-ALTER DATABASE [AwesomeDb] 
-SET RECOVERY SIMPLE, 
-    ANSI_NULLS ON, 
-    ANSI_PADDING ON, 
-    ANSI_WARNINGS ON, 
-    ARITHABORT ON, 
-    CONCAT_NULL_YIELDS_NULL ON, 
-    QUOTED_IDENTIFIER ON, 
-    NUMERIC_ROUNDABORT OFF, 
-    PAGE_VERIFY CHECKSUM, 
+ALTER DATABASE [AwesomeDb]
+SET RECOVERY SIMPLE,
+    ANSI_NULLS ON,
+    ANSI_PADDING ON,
+    ANSI_WARNINGS ON,
+    ARITHABORT ON,
+    CONCAT_NULL_YIELDS_NULL ON,
+    QUOTED_IDENTIFIER ON,
+    NUMERIC_ROUNDABORT OFF,
+    PAGE_VERIFY CHECKSUM,
     ALLOW_SNAPSHOT_ISOLATION OFF;
 GO
 
@@ -81,21 +81,21 @@ CREATE TABLE [dbo].[person](
 ) ON [PRIMARY];
 GO
 
-INSERT INTO [dbo].[person] VALUES 
+INSERT INTO [dbo].[person] VALUES
     ('e395b6fc-14ff-47da-819e-526d6c9896d3', 'A', 1),
     ('dfbfd41d-e7c6-4709-9bf0-bd490d227b8f', 'B', 1);
 GO
 
-CREATE TABLE [dbo].[idcard](
+CREATE TABLE [dbo].[employee](
 	[PersonID] [UNIQUEIDENTIFIER] NOT NULL,
-	[ID] varchar(50) NOT NULL,
+	[Role] varchar(50) NOT NULL,
 	[IsForQuery] [BIT] NOT NULL
 ) ON [PRIMARY];
 GO
 
-INSERT INTO [dbo].[idcard] VALUES 
-    ('e395b6fc-14ff-47da-819e-526d6c9896d3', '1234567890', 1),
-    ('dfbfd41d-e7c6-4709-9bf0-bd490d227b8f', 'abcdefghijk', 1);
+INSERT INTO [dbo].[employee] VALUES
+    ('e395b6fc-14ff-47da-819e-526d6c9896d3', 'dev', 1),
+    ('dfbfd41d-e7c6-4709-9bf0-bd490d227b8f', 'qa', 1);
 GO
 
 CREATE TABLE [dbo].[parent](
@@ -105,7 +105,7 @@ CREATE TABLE [dbo].[parent](
 ) ON [PRIMARY];
 GO
 
-INSERT INTO [dbo].[parent] VALUES 
+INSERT INTO [dbo].[parent] VALUES
     ('e395b6fc-14ff-47da-819e-526d6c9896d3', 'parent-query-1', 1),
     ('dfbfd41d-e7c6-4709-9bf0-bd490d227b8f', 'parent-query-2', 1);
 GO
@@ -128,15 +128,15 @@ INSERT INTO [dbo].[child] VALUES
     (NEWID(), 'dfbfd41d-e7c6-4709-9bf0-bd490d227b8f', 'child-3-for-parent-2', 1);
 GO
 
-ALTER TABLE [dbo].[parent] WITH CHECK ADD 
-    CONSTRAINT [PK_parent_parentid] PRIMARY KEY CLUSTERED 
+ALTER TABLE [dbo].[parent] WITH CHECK ADD
+    CONSTRAINT [PK_parent_parentid] PRIMARY KEY CLUSTERED
     (
         [ParentID]
     );
 GO
 
-ALTER TABLE [dbo].[child] WITH CHECK ADD 
-    CONSTRAINT [PK_child_childid] PRIMARY KEY CLUSTERED 
+ALTER TABLE [dbo].[child] WITH CHECK ADD
+    CONSTRAINT [PK_child_childid] PRIMARY KEY CLUSTERED
     (
         [ChildID]
     );
