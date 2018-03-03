@@ -17,7 +17,7 @@ namespace one_to_one
         readonly StringWriter outputCache = new StringWriter();
 
         protected string ConnectionString { get; }
-            = "Data Source=localhost\\SQLEXPRESS;Initial Catalog=AwesomeDb;Integrated Security=True;";
+            = "Data Source=(local);Initial Catalog=AwesomeDb;Integrated Security=True;";
 
         protected FactBase(ITestOutputHelper output)
         {
